@@ -16,12 +16,25 @@ class TicTacToe:
 
     def makeMove(self, position, player):
         #updates the position with either an X or an O
-        self._grid[self.getIndexOfPosition(position)[0]][self.getIndexOfPosition(position)[1]] = player
+        if position > 8:
+            return "position to high"
+        elif self._grid[self.getIndexOfPosition(position)[0]][self.getIndexOfPosition(position)[1]] == None:
+            self._grid[self.getIndexOfPosition(position)[0]][self.getIndexOfPosition(position)[1]] = player
+            return "success"
+        else:
+            return "fail"
 
     def printGrid(self):
         #prints out the grid
+        print("------------------")
+        print("-----TicTacToe----")
+        print("------------------")
         for i in range(3):
             print(self._grid[i])
+        print("------------------")
+
+    #def checkWinner(self):
+        #checks if a player has won
 
     def playGame(self):
         #runs the game
@@ -36,13 +49,18 @@ class TicTacToe:
             #if they player enters a number above 8 they will just be told to enter another number
             while self.move > 8:
                 self.move = int(input("Player "+ str(self.currentPlayer) +" Move: "))
-            self.makeMove(self.move, self.currentPlayer)
 
-            #swaps the currentPlayer after the currentPlayer has said what they want to do
-            if self.currentPlayer == "X":
-                self.currentPlayer = "O"
-            else:
-                self.currentPlayer = "X"
+                if self.makeMove(self.move, self.currentPlayer) == "success":
+                    #swaps the currentPlayer after the currentPlayer has said what they want to do
+                    if self.currentPlayer == "X":
+                        self.currentPlayer = "O"
+                    else:
+                        self.currentPlayer = "X"
 
+                elif self.makeMove(self.move, self.currentPlayer) == "position to high":
+                    print("You must enter a number between 0 and 9!")
+
+                else:
+                    print("That Place is taken")
 game = TicTacToe()
 game.playGame()

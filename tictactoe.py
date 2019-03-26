@@ -2,15 +2,19 @@
 
 class TicTacToe:
     def __init__(self):
-        self.setup()
-    def setup(self):
+        #remembers scores between games
+        self.scores = {"playerXWins": 0, "playerOWins": 0, "draws": 0}
         #gets players names
         self.playerX = input("player 1's Name? ")
         self.playerO = input("player 2's Name? ")
+        #setups for each game
+        self.setup()
+    def setup(self):
         #setups the grid
         self._grid = [[None, None, None], [None, None, None], [None, None, None]]
 
     def getCurrentPlayersName(self, player):
+        #returns the names of the players
         if player == "X":
             return self.playerX
         elif player == "O":
@@ -104,15 +108,21 @@ class TicTacToe:
                     if self.checkWinner() == "X":
                         self.Won = "X"
                         self.printGrid()
+                        self.scores["playerXWins"] += 1
                         print(self.playerX + " Won")
+                        print(self.getCurrentPlayersName("X") + ": " + str(self.scores["playerXWins"]) + ", " + self.getCurrentPlayersName("O") + ": " + str(self.scores["playerOWins"]) + ", Draws: " + str(self.scores["draws"]))
                     elif self.checkWinner() == "O":
                         self.Won = "O"
                         self.printGrid()
+                        self.scores["playerOWins"] += 1
                         print(self.playerO + " Won")
+                        print(self.getCurrentPlayersName("X") + ": " + str(self.scores["playerXWins"]) + ", " + self.getCurrentPlayersName("O") + ": " + str(self.scores["playerOWins"]) + ", Draws: " + str(self.scores["draws"]))
                     elif self.checkWinner() == "draw":
                         self.Won = "X"
                         self.printGrid()
+                        self.scores["draws"] += 1
                         print("Draw")
+                        print(self.getCurrentPlayersName("X") + ": " + str(self.scores["playerXWins"]) + ", " + self.getCurrentPlayersName("O") + ": " + str(self.scores["playerOWins"]) + ", Draws: " + str(self.scores["draws"]))
                     #swaps the currentPlayer after the currentPlayer has said what they want to do
                     if self.currentPlayer == "X":
                         self.currentPlayer = "O"

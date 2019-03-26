@@ -2,10 +2,22 @@
 
 class TicTacToe:
     def __init__(self):
+        self.setup()
+    def setup(self):
+        #gets players names
+        self.playerX = input("player 1's Name? ")
+        self.playerO = input("player 2's Name? ")
         #setups the grid
         self._grid = [[None, None, None], [None, None, None], [None, None, None]]
-    def setup(self):
-        self._grid = [[None, None, None], [None, None, None], [None, None, None]]
+
+    def getCurrentPlayersName(self, player):
+        if player == "X":
+            return self.playerX
+        elif player == "O":
+            return self.playerO
+        else:
+            return "error"
+
     def getIndexOfPosition(self, position):
         #kinda returns an x and y position on the grid
         self.positions = {
@@ -85,28 +97,22 @@ class TicTacToe:
             self.move = 10
             #if they player enters a number above 8 they will just be told to enter another number
             while self.move > 8:
-                self.move = int(input("Player "+ str(self.currentPlayer) +" Move: "))
+                self.move = int(input("Player "+ self.getCurrentPlayersName(self.currentPlayer) +" Move: "))
 
                 if self.makeMove(self.move, self.currentPlayer) == "success":
                     #checks to see if a player has Won
                     if self.checkWinner() == "X":
                         self.Won = "X"
                         self.printGrid()
-                        print("-----")
-                        print("X Won")
-                        print("-----")
+                        print(self.playerX + " Won")
                     elif self.checkWinner() == "O":
                         self.Won = "O"
                         self.printGrid()
-                        print("-----")
-                        print("O Won")
-                        print("-----")
+                        print(self.playerO + " Won")
                     elif self.checkWinner() == "draw":
                         self.Won = "X"
                         self.printGrid()
-                        print("----")
                         print("Draw")
-                        print("----")
                     #swaps the currentPlayer after the currentPlayer has said what they want to do
                     if self.currentPlayer == "X":
                         self.currentPlayer = "O"

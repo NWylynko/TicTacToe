@@ -4,7 +4,8 @@ class TicTacToe:
     def __init__(self):
         #setups the grid
         self._grid = [[None, None, None], [None, None, None], [None, None, None]]
-
+    def setup(self):
+        self._grid = [[None, None, None], [None, None, None], [None, None, None]]
     def getIndexOfPosition(self, position):
         #kinda returns an x and y position on the grid
         self.positions = {
@@ -50,16 +51,16 @@ class TicTacToe:
             if self._grid[0][i] == "O" and self._grid[1][i] == "O" and self._grid[2][i] == "O":
                 return "O"
 
-            #checks diagonals (/)
+            #checks diagonals (\)
             if self._grid[0][0] == "X" and self._grid[1][1] == "X" and self._grid[2][2] == "X":
                 return "X"
             if self._grid[0][0] == "O" and self._grid[1][1] == "O" and self._grid[2][2] == "O":
                 return "O"
 
-            #checks diagonals (\)
-            if self._grid[2][0] == "X" and self._grid[1][1] == "X" and self._grid[1][2] == "X":
+            #checks diagonals (/)
+            if self._grid[2][0] == "X" and self._grid[1][1] == "X" and self._grid[0][2] == "X":
                 return "X"
-            if self._grid[2][0] == "O" and self._grid[1][1] == "O" and self._grid[1][2] == "O":
+            if self._grid[2][0] == "O" and self._grid[1][1] == "O" and self._grid[0][2] == "O":
                 return "O"
 
         draw = 0
@@ -119,3 +120,13 @@ class TicTacToe:
                     print("That Place is taken")
 game = TicTacToe()
 game.playGame()
+
+playAgain = True
+
+while playAgain == True:
+    askPlayAgain = input("Play Again? (sure/nah) ")
+    if askPlayAgain == "sure":
+        game.setup()
+        game.playGame()
+    else:
+        playAgain = False

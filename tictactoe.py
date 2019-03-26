@@ -33,8 +33,44 @@ class TicTacToe:
             print(self._grid[i])
         print("------------------")
 
-    #def checkWinner(self):
+    def checkWinner(self):
         #checks if a player has won
+
+        for i in range(3):
+
+            #checks horizontal (-)
+            if self._grid[i][0] == "X" and self._grid[i][1] == "X" and self._grid[i][2] == "X":
+                return "X"
+            if self._grid[i][0] == "O" and self._grid[i][1] == "O" and self._grid[i][2] == "O":
+                return "O"
+
+            #checks virticle (|)
+            if self._grid[0][i] == "X" and self._grid[1][i] == "X" and self._grid[2][i] == "X":
+                return "X"
+            if self._grid[0][i] == "O" and self._grid[1][i] == "O" and self._grid[2][i] == "O":
+                return "O"
+
+            #checks diagonals (/)
+            if self._grid[0][0] == "X" and self._grid[1][1] == "X" and self._grid[2][2] == "X":
+                return "X"
+            if self._grid[0][0] == "O" and self._grid[1][1] == "O" and self._grid[2][2] == "O":
+                return "O"
+
+            #checks diagonals (\)
+            if self._grid[2][0] == "X" and self._grid[1][1] == "X" and self._grid[1][2] == "X":
+                return "X"
+            if self._grid[2][0] == "O" and self._grid[1][1] == "O" and self._grid[1][2] == "O":
+                return "O"
+
+        draw = 0
+        if self._grid[i][i] != None:
+            draw += 1
+
+        if draw == 8:
+            return "draw"
+
+        return "no winner"
+
 
     def playGame(self):
         #runs the game
@@ -51,6 +87,25 @@ class TicTacToe:
                 self.move = int(input("Player "+ str(self.currentPlayer) +" Move: "))
 
                 if self.makeMove(self.move, self.currentPlayer) == "success":
+                    #checks to see if a player has Won
+                    if self.checkWinner() == "X":
+                        self.Won = "X"
+                        self.printGrid()
+                        print("-----")
+                        print("X Won")
+                        print("-----")
+                    elif self.checkWinner() == "O":
+                        self.Won = "O"
+                        self.printGrid()
+                        print("-----")
+                        print("O Won")
+                        print("-----")
+                    elif self.checkWinner() == "draw":
+                        self.Won = "X"
+                        self.printGrid()
+                        print("----")
+                        print("Draw")
+                        print("----")
                     #swaps the currentPlayer after the currentPlayer has said what they want to do
                     if self.currentPlayer == "X":
                         self.currentPlayer = "O"

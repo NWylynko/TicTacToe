@@ -1,5 +1,6 @@
 from tkinter import *
 m = Tk()
+m.title("TicTacToe")
 class TicTacToe:
     def __init__(self):
         #remembers scores between games
@@ -17,7 +18,8 @@ class TicTacToe:
         def getPlayerXName(player):
             print(self.player.get())
 
-        Button(m, text='Start', width=20, fg="black", command=self.playGame).grid(row=2, column=1)
+        self.startButton = Button(m, text='Start', width=20, fg="black", command=self.playGame)
+        self.startButton.grid(row=2, column=1)
 
         mainloop()
     def setup(self):
@@ -57,10 +59,9 @@ class TicTacToe:
 
     def printGrid(self):
         #prints out the grid
-        w = Label(m, text="----TicTacToe----").grid(row=0, column=0)
         for i in range(3):
-            w = Label(m, text=self._grid[i]).grid(row=1+i, column=0)
-        w = Label(m, text="------------------").grid(row=4, column=0)
+            for u in range(3):
+                Button(m, text=self._grid[i][u], width=3).grid(row=1+i, column=u)
         mainloop()
     def checkWinner(self):
         #checks if a player has won
@@ -102,6 +103,12 @@ class TicTacToe:
 
 
     def playGame(self):
+
+        #remove widgets
+        self.playerX.grid_remove()
+        self.playerO.grid_remove()
+        self.startButton.grid_remove()
+
         #runs the game
         self.Won = False
         self.currentPlayer = "X"
@@ -109,7 +116,7 @@ class TicTacToe:
         while self.Won == False:
             #kepps running until someone wins or a draw
             self.printGrid()
-            print("You must enter a number between 0 and 8!")
+            #print("You must enter a number between 0 and 8!")
             self.move = 10
             #if they player enters a number above 8 they will just be told to enter another number
             while self.move > 8:

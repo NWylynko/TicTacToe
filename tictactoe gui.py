@@ -6,17 +6,22 @@ class TicTacToe:
         #remembers scores between games
         self.scores = {"playerXWins": 0, "playerOWins": 0, "draws": 0}
         self.setup()
+        #buttons for all
+        self.buttons = []
         #gets players names
-        Label(m, text='Player X').grid(row=0, column=0)
-        Label(m, text='Player O').grid(row=1, column=0)
-        self.playerX = Entry(m)
-        self.playerO = Entry(m)
+        self.Label1 = Label(m, text='Player X')
+        self.Label2 = Label(m, text='Player O')
 
-        self.playerX.grid(row=0, column=1)
-        self.playerO.grid(row=1, column=1)
+        self.Label1.grid(row=0, column=0)
+        self.Label2.grid(row=1, column=0)
 
-        def getPlayerXName(player):
-            print(self.player.get())
+        self.playerXLabel = Entry(m)
+        self.playerOLabel = Entry(m)
+
+        self.playerXLabel.grid(row=0, column=1)
+        self.playerOLabel.grid(row=1, column=1)
+
+
 
         self.startButton = Button(m, text='Start', width=20, fg="black", command=self.playGame)
         self.startButton.grid(row=2, column=1)
@@ -25,9 +30,6 @@ class TicTacToe:
     def setup(self):
         #setups the grid
         self._grid = [[None, None, None], [None, None, None], [None, None, None]]
-
-    #def updateScreen(self):
-
 
     def getCurrentPlayersName(self, player):
         #returns the names of the players
@@ -57,11 +59,25 @@ class TicTacToe:
         else:
             return "fail"
 
+    def updategrid(self, i):
+        self.move = i
+        print(i, self.move)
+        for i in range(3):
+            print(self._grid[i])
+
     def printGrid(self):
         #prints out the grid
-        for i in range(3):
-            for u in range(3):
-                Button(m, text=self._grid[i][u], width=3).grid(row=1+i, column=u)
+        Label(m, text=self.getCurrentPlayersName(self.currentPlayer) + "'s turn").grid(row=0, column=1)
+        Button(m, text="0", width=3, command= lambda: self.updategrid(0)).grid(row=1, column=0)
+        Button(m, text="1", width=3, command= lambda: self.updategrid(1)).grid(row=1, column=1)
+        Button(m, text="2", width=3, command= lambda: self.updategrid(2)).grid(row=1, column=2)
+        Button(m, text="3", width=3, command= lambda: self.updategrid(3)).grid(row=2, column=0)
+        Button(m, text="4", width=3, command= lambda: self.updategrid(4)).grid(row=2, column=1)
+        Button(m, text="5", width=3, command= lambda: self.updategrid(5)).grid(row=2, column=2)
+        Button(m, text="6", width=3, command= lambda: self.updategrid(6)).grid(row=3, column=0)
+        Button(m, text="7", width=3, command= lambda: self.updategrid(7)).grid(row=3, column=1)
+        Button(m, text="8", width=3, command= lambda: self.updategrid(8)).grid(row=3, column=2)
+
         mainloop()
     def checkWinner(self):
         #checks if a player has won
@@ -104,9 +120,14 @@ class TicTacToe:
 
     def playGame(self):
 
+        self.playerX = self.playerXLabel.get()
+        self.playerO = self.playerOLabel.get()
+
         #remove widgets
-        self.playerX.grid_remove()
-        self.playerO.grid_remove()
+        self.playerXLabel.grid_remove()
+        self.Label1.grid_remove()
+        self.playerOLabel.grid_remove()
+        self.Label2.grid_remove()
         self.startButton.grid_remove()
 
         #runs the game
@@ -116,43 +137,31 @@ class TicTacToe:
         while self.Won == False:
             #kepps running until someone wins or a draw
             self.printGrid()
-            #print("You must enter a number between 0 and 8!")
-            self.move = 10
-            #if they player enters a number above 8 they will just be told to enter another number
-            while self.move > 8:
-                self.move = int(input("Player "+ self.getCurrentPlayersName(self.currentPlayer) +" Move: "))
-
-                if self.makeMove(self.move, self.currentPlayer) == "success":
-                    #checks to see if a player has Won
-                    if self.checkWinner() == "X":
-                        self.Won = "X"
-                        self.printGrid()
-                        self.scores["playerXWins"] += 1
-                        print(self.playerX + " Won")
-                        print(self.getCurrentPlayersName("X") + ": " + str(self.scores["playerXWins"]) + ", " + self.getCurrentPlayersName("O") + ": " + str(self.scores["playerOWins"]) + ", Draws: " + str(self.scores["draws"]))
-                    elif self.checkWinner() == "O":
-                        self.Won = "O"
-                        self.printGrid()
-                        self.scores["playerOWins"] += 1
-                        print(self.playerO + " Won")
-                        print(self.getCurrentPlayersName("X") + ": " + str(self.scores["playerXWins"]) + ", " + self.getCurrentPlayersName("O") + ": " + str(self.scores["playerOWins"]) + ", Draws: " + str(self.scores["draws"]))
-                    elif self.checkWinner() == "draw":
-                        self.Won = "X"
-                        self.printGrid()
-                        self.scores["draws"] += 1
-                        print("Draw")
-                        print(self.getCurrentPlayersName("X") + ": " + str(self.scores["playerXWins"]) + ", " + self.getCurrentPlayersName("O") + ": " + str(self.scores["playerOWins"]) + ", Draws: " + str(self.scores["draws"]))
-                    #swaps the currentPlayer after the currentPlayer has said what they want to do
-                    if self.currentPlayer == "X":
-                        self.currentPlayer = "O"
-                    else:
-                        self.currentPlayer = "X"
-
-                elif self.makeMove(self.move, self.currentPlayer) == "position to high":
-                    print("You must enter a number between 0 and 9!")
-
+            if self.makeMove(self.move, self.currentPlayer) == "success":
+                #checks to see if a player has Won
+                if self.checkWinner() == "X":
+                    self.Won = "X"
+                    self.printGrid()
+                    self.scores["playerXWins"] += 1
+                    print(self.playerX + " Won")
+                    print(self.getCurrentPlayersName("X") + ": " + str(self.scores["playerXWins"]) + ", " + self.getCurrentPlayersName("O") + ": " + str(self.scores["playerOWins"]) + ", Draws: " + str(self.scores["draws"]))
+                elif self.checkWinner() == "O":
+                    self.Won = "O"
+                    self.printGrid()
+                    self.scores["playerOWins"] += 1
+                    print(self.playerO + " Won")
+                    print(self.getCurrentPlayersName("X") + ": " + str(self.scores["playerXWins"]) + ", " + self.getCurrentPlayersName("O") + ": " + str(self.scores["playerOWins"]) + ", Draws: " + str(self.scores["draws"]))
+                elif self.checkWinner() == "draw":
+                    self.Won = "X"
+                    self.printGrid()
+                    self.scores["draws"] += 1
+                    print("Draw")
+                    print(self.getCurrentPlayersName("X") + ": " + str(self.scores["playerXWins"]) + ", " + self.getCurrentPlayersName("O") + ": " + str(self.scores["playerOWins"]) + ", Draws: " + str(self.scores["draws"]))
+                #swaps the currentPlayer after the currentPlayer has said what they want to do
+                if self.currentPlayer == "X":
+                    self.currentPlayer = "O"
                 else:
-                    print("That Place is taken")
+                    self.currentPlayer = "X"
 game = TicTacToe()
 
 playAgain = True

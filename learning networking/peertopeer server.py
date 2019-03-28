@@ -15,7 +15,7 @@ while True:
 
    peersocket = socket.socket()
    peerhost = addr[0]
-   peerport = 11611
+   peerport = 11511
    peersocket.connect((peerhost, peerport))
 
    print(peersocket.recv(1024))

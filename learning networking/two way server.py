@@ -8,6 +8,12 @@ localhost = socket.gethostname() # Get local machine name
 localport = 11511                # Reserve a port for your service.
 localsocket.bind((localhost, localport))        # Bind to the port
 
+def setupPeer():
+   peersocket = socket.socket()
+   peerhost = ip
+   peerport = 11511
+   peersocket.connect((peerhost, peerport))
+
 if ip == "":
     localsocket.listen(5)                 # Now wait for client connection.
 while True:
@@ -15,10 +21,7 @@ while True:
    print('Got connection from', addr)
    peerOut.send('Thank you for connecting')
 
-   peersocket = socket.socket()
-   peerhost = ip
-   peerport = 11511
-   peersocket.connect((peerhost, peerport))
+
 
    print(peersocket.recv(1024))
 
